@@ -1,22 +1,50 @@
-map <C-n> :NERDTreeToggle<cr>
+" Enable pathogen
 execute pathogen#infect()
+
+" Mappings
+map <C-n> :NERDTreeToggle<cr>
+
+" Various vim settings
+set number
+set noshowmode
+set guifont=Inconsolata\ for\ Powerline:h12
+colors molokai
+set laststatus=2
+
+" Enable syntax and filetypes and set patterns for filetypes
 syntax on
 filetype plugin indent on
-set number
-let g:airline_theme='molokai'
+au BufRead,BufNewFile *.l set filetype=lisp
+
+" Keep things at a specific line length
+highlight OverLength ctermbg=161 ctermfg=white guibg=#FFD9D9
+autocmd FileType c,cpp,markdown,ghmarkdown,gitcommit,ruby,python,lisp\
+  match OverLength /\%>80v.\+/
+autocmd FileType java match OverLength /\%>120v.\+/
+
+" Enable spell check
 autocmd FileType markdown,ghmarkdown setlocal spelllang=en_ca
 autocmd FileType markdown,ghmarkdown setlocal spell
+let g:airline_theme='molokai'
+
+" Ugh, tab settings
 set tabstop=4 shiftwidth=4 softtabstop=4 smarttab
 autocmd FileType c setlocal cindent
 autocmd FileType python setlocal expandtab
-set laststatus=2
+
+" Stupid terminal settings
 set encoding=utf-8
-let &termencoding=&encoding
+set termencoding=utf-8
+set fileencoding=utf-8
+set term=xterm
 set t_Co=256
-colors molokai
-highlight OverLength ctermbg=161 ctermfg=white guibg=#FFD9D9
+
+" Stupid Windows settings
+if has('win32') && !has('gui_running') && !empty($CONEMUBUILD)
+  let &t_AB="\e[48;5;%dm"
+  let &t_AF="\e[38;5;%dm"
+endif
+
+" Airline stuff
 let g:airline_powerline_fonts=1
-au BufRead,BufNewFile *.l set filetype=lisp
-autocmd FileType c,cpp,markdown,ghmarkdown,gitcommit,ruby,python,lisp match OverLength /\%>80v.\+/
-autocmd FileType java match OverLength /\%>120v.\+/
-set noshowmode
+let g:airline#extensions#tabline#enabled = 1
