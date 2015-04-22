@@ -29,6 +29,7 @@ let g:airline_theme='molokai'
 
 " Ugh, tab settings
 set tabstop=4 shiftwidth=4 softtabstop=4 smarttab
+autocmd FileType ruby setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 autocmd FileType c setlocal cindent
 autocmd FileType python setlocal expandtab
 
