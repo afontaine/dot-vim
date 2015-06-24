@@ -9,6 +9,7 @@ map <C-n> :NERDTreeToggle<cr>
 " Various vim settings
 set number
 set noshowmode
+set ignorecase
 set smartcase
 set guifont=Inconsolata\ for\ Powerline:h12
 colors molokai
