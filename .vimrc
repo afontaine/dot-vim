@@ -1,3 +1,5 @@
+set nocompatible
+
 " Enable pathogen
 execute pathogen#infect()
 
@@ -7,6 +9,7 @@ map <C-n> :NERDTreeToggle<cr>
 " Various vim settings
 set number
 set noshowmode
+set smartcase
 set guifont=Inconsolata\ for\ Powerline:h12
 colors molokai
 set laststatus=2
@@ -19,13 +22,12 @@ au BufRead,BufNewFile *.l set filetype=lisp
 " Keep things at a specific line length
 highlight OverLength ctermbg=161 ctermfg=white guibg=#FFD9D9
 autocmd FileType c,cpp,markdown,ghmarkdown,gitcommit,ruby,python,lisp\
-  match OverLength /\%>80v.\+/
+  \ match OverLength /\%>80v.\+/
 autocmd FileType java match OverLength /\%>120v.\+/
 
 " Enable spell check
 autocmd FileType markdown,ghmarkdown setlocal spelllang=en_ca
 autocmd FileType markdown,ghmarkdown setlocal spell
-let g:airline_theme='molokai'
 
 " Ugh, tab settings
 set tabstop=4 shiftwidth=4 softtabstop=4 smarttab
