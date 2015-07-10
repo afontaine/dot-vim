@@ -33,3 +33,19 @@ Awesome fuzzy-finder!
 The NERD Commenter
 ------------------
 Awesome commenter plugin for commenting out all sorts of code
+
+NERDTree
+--------
+Super cool file tree
+
+Typescript
+----------
+Vim typescript support
+
+JS Indent
+---------
+Rules for auto-indenting javascript
+
+base16
+------
+A sweet set of color schemes. I like the monokai variant
