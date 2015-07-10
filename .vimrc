@@ -6,14 +6,26 @@ execute pathogen#infect()
 " Mappings
 map <C-n> :NERDTreeToggle<cr>
 
+" Set base16 color space
+let base16colorspace=256
+
+" Keymappings
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
 " Various vim settings
 set number
 set noshowmode
 set ignorecase
 set smartcase
 set guifont=Inconsolata\ for\ Powerline:h12
-colors molokai
+colorscheme base16-monokai
+set background=dark
 set laststatus=2
+set splitbelow
+set splitright
 
 " Enable syntax and filetypes and set patterns for filetypes
 syntax on
@@ -22,7 +34,7 @@ au BufRead,BufNewFile *.l set filetype=lisp
 
 " Keep things at a specific line length
 highlight OverLength ctermbg=161 ctermfg=white guibg=#FFD9D9
-autocmd FileType c,cpp,markdown,ghmarkdown,gitcommit,ruby,python,lisp\
+autocmd FileType c,cpp,markdown,ghmarkdown,gitcommit,ruby,python,lisp
   \ match OverLength /\%>80v.\+/
 autocmd FileType java match OverLength /\%>120v.\+/
 
@@ -52,3 +64,4 @@ endif
 " Airline stuff
 let g:airline_powerline_fonts=1
 let g:airline#extensions#tabline#enabled = 1
+
