@@ -31,6 +31,7 @@ set splitright
 syntax on
 filetype plugin indent on
 au BufRead,BufNewFile *.l set filetype=lisp
+au BufRead,BufNewFile *.md set filetype=ghmarkdown
 
 " Keep things at a specific line length
 highlight OverLength ctermbg=161 ctermfg=white guibg=#FFD9D9
@@ -59,6 +60,7 @@ set t_Co=256
 if has('win32') && !has('gui_running') && !empty($CONEMUBUILD)
   let &t_AB="\e[48;5;%dm"
   let &t_AF="\e[38;5;%dm"
+  colorscheme molokai
 endif
 
 " Airline stuff
