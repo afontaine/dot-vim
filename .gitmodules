@@ -37,3 +37,6 @@
 [submodule ".vim/bundle/base16-vim"]
 	path = .vim/bundle/base16-vim
 	url = git@github.com:chriskempson/base16-vim.git
+[submodule ".vim/bundle/vim-devicons"]
+	path = .vim/bundle/vim-devicons
+	url = git@github.com:ryanoasis/vim-devicons.git
