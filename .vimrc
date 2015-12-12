@@ -20,7 +20,7 @@ set number
 set noshowmode
 set ignorecase
 set smartcase
-set guifont=Inconsolata\ for\ Powerline:h12
+set guifont=Hack:h12
 colorscheme base16-monokai
 set background=dark
 set laststatus=2
