@@ -69,11 +69,15 @@ set term=xterm
 set t_Co=256
 
 " Stupid Windows settings
-if has('win32') && !has('gui_running') && !empty($CONEMUBUILD)
-  let &t_AB="\e[48;5;%dm"
-  let &t_AF="\e[38;5;%dm"
-  colorscheme molokai
-  let g:airline_theme="molokai"
+if has('win32')
+   if !has('gui_running') && !empty($CONEMUBUILD)
+	  let &t_AB="\e[48;5;%dm"
+	  let &t_AF="\e[38;5;%dm"
+	  colorscheme molokai
+	  let g:airline_theme="molokai"
+  else
+	  set guifont=Hack:h10
+  endif
 endif
 
 " Airline stuff
