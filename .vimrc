@@ -28,6 +28,16 @@ set laststatus=2
 set splitbelow
 set splitright
 
+" Plain GUI
+set guioptions-=m
+set guioptions-=M
+set guioptions-=t
+set guioptions-=T
+set guioptions-=r
+set guioptions-=R
+set guioptions-=l
+set guioptions-=L
+
 " Enable syntax and filetypes and set patterns for filetypes
 syntax on
 filetype plugin indent on
@@ -46,7 +56,8 @@ autocmd FileType markdown,ghmarkdown setlocal spell
 
 " Ugh, tab settings
 set tabstop=4 shiftwidth=4 softtabstop=4 smarttab
-autocmd FileType ruby setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType ruby,typescript,javascript
+			\ setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 autocmd FileType c setlocal cindent
 autocmd FileType python setlocal expandtab
 
@@ -69,4 +80,14 @@ endif
 let g:airline_powerline_fonts=1
 let g:airline#extensions#tabline#enabled = 1
 
-let g:WebDevIconsUnicodeGlyphDoubleWidth = 1
+" Syntastic
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:synatstic_aggregate_errors = 1
+
+let g:syntastic_typescript_checkers = ["tsc", "tslint"]
+let g:syntastic_ruby_checkers = ["mri", "rubocop"]
+let g:syntastic_javascript_checkers = ["eslint"]
+
