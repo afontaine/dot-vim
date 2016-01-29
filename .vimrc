@@ -22,6 +22,7 @@ set ignorecase
 set smartcase
 set guifont=Hack\ 12
 colorscheme base16-monokai
+let g:airline_theme="base16"
 set background=dark
 set laststatus=2
 set splitbelow
@@ -61,6 +62,7 @@ if has('win32') && !has('gui_running') && !empty($CONEMUBUILD)
   let &t_AB="\e[48;5;%dm"
   let &t_AF="\e[38;5;%dm"
   colorscheme molokai
+  let g:airline_theme="molokai"
 endif
 
 " Airline stuff
