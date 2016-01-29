@@ -25,9 +25,6 @@
 [submodule ".vim/bundle/nerdcommenter"]
 	path = .vim/bundle/nerdcommenter
 	url = git://github.com/scrooloose/nerdcommenter.git
-[submodule ".vim/bundle/typescript-vim"]
-	path = .vim/bundle/typescript-vim
-	url = git://github.com/leafgarland/typescript-vim.git
 [submodule ".vim/bundle/vim-js-indent"]
 	path = .vim/bundle/vim-js-indent
 	url = git://github.com/jason0x43/vim-js-indent.git
@@ -46,3 +43,6 @@
 [submodule ".vim/bundle/vim-signify"]
 	path = .vim/bundle/vim-signify
 	url = git://github.com/mhinz/vim-signify.git
+[submodule ".vim/bundle/yats.vim"]
+	path = .vim/bundle/yats.vim
+	url = git://github.com/HerringtonDarkholme/yats.vim.git
