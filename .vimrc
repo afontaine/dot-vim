@@ -27,6 +27,8 @@ set background=dark
 set laststatus=2
 set splitbelow
 set splitright
+set noerrorbells visualbell t_vb=
+au GUIEnter * set visualbell t_vb=
 
 " Plain GUI
 set guioptions-=m
@@ -43,6 +45,7 @@ syntax on
 filetype plugin indent on
 au BufRead,BufNewFile *.l set filetype=lisp
 au BufRead,BufNewFile *.md set filetype=ghmarkdown
+au BufRead,BufNewFile *.cfg set filetype=xml
 
 " Keep things at a specific line length
 highlight OverLength ctermbg=161 ctermfg=white guibg=#FFD9D9
@@ -51,8 +54,11 @@ autocmd FileType c,cpp,markdown,ghmarkdown,gitcommit,ruby,python,lisp
 autocmd FileType java match OverLength /\%>120v.\+/
 
 " Enable spell check
-autocmd FileType markdown,ghmarkdown setlocal spelllang=en_ca
-autocmd FileType markdown,ghmarkdown setlocal spell
+autocmd FileType markdown,ghmarkdown,gitcommit setlocal spelllang=en_ca
+autocmd FileType markdown,ghmarkdown,gitcommit setlocal spell
+set spellfile=$HOME/.vim-spell-en.utf-8.add
+set complete+=kspell
+let g:airline_theme='molokai'
 
 " Ugh, tab settings
 set tabstop=4 shiftwidth=4 softtabstop=4 smarttab
