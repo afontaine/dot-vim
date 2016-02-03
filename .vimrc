@@ -5,13 +5,13 @@ import re
 path = os.environ['PATH'].split(';')
 
 def contains_msvcr_lib(folder):
-    try:
-        for item in os.listdir(folder):
-            if re.match(r'msvcr\d+\.dll', item):
-                return True
-    except:
-        pass
-    return False
+	try:
+		for item in os.listdir(folder):
+			if re.match(r'msvcr\d+\.dll', item):
+				return True
+	except:
+		pass
+	return False
 
 path = [folder for folder in path if not contains_msvcr_lib(folder)]
 os.environ['PATH'] = ';'.join(path)
@@ -71,7 +71,7 @@ au BufRead,BufNewFile *.cfg set filetype=xml
 " Keep things at a specific line length
 highlight OverLength ctermbg=161 ctermfg=white guibg=#FFD9D9
 autocmd FileType c,cpp,markdown,ghmarkdown,gitcommit,ruby,python,lisp
-  \ match OverLength /\%>80v.\+/
+			\ match OverLength /\%>80v.\+/
 autocmd FileType java match OverLength /\%>120v.\+/
 
 " Enable spell check
@@ -97,14 +97,14 @@ set t_Co=256
 
 " Stupid Windows settings
 if has('win32')
-   if !has('gui_running') && !empty($CONEMUBUILD)
-	  let &t_AB="\e[48;5;%dm"
-	  let &t_AF="\e[38;5;%dm"
-	  colorscheme molokai
-	  let g:airline_theme="molokai"
-  else
-	  set guifont=Hack:h10
-  endif
+	if !has('gui_running') && !empty($CONEMUBUILD)
+		let &t_AB="\e[48;5;%dm"
+		let &t_AF="\e[38;5;%dm"
+		colorscheme molokai
+		let g:airline_theme="molokai"
+	else
+		set guifont=Hack:h10
+	endif
 endif
 
 " Airline stuff
