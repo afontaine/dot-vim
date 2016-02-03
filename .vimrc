@@ -1,20 +1,20 @@
-if has('win32') && has('python')
+if has("win32") && has("python")
 python << EOF
 import os
 import re
-path = os.environ['PATH'].split(';')
+path = os.environ["PATH"].split(";")
 
 def contains_msvcr_lib(folder):
 	try:
 		for item in os.listdir(folder):
-			if re.match(r'msvcr\d+\.dll', item):
+			if re.match(r"msvcr\d+\.dll", item):
 				return True
 	except:
 		pass
 	return False
 
 path = [folder for folder in path if not contains_msvcr_lib(folder)]
-os.environ['PATH'] = ';'.join(path)
+os.environ["PATH"] = ";".join(path)
 EOF
 endif
 
@@ -79,7 +79,7 @@ autocmd FileType markdown,ghmarkdown,gitcommit setlocal spelllang=en_ca
 autocmd FileType markdown,ghmarkdown,gitcommit setlocal spell
 set spellfile=$HOME/.vim-spell-en.utf-8.add
 set complete+=kspell
-let g:airline_theme='molokai'
+let g:airline_theme="molokai"
 
 " Ugh, tab settings
 set tabstop=4 shiftwidth=4 softtabstop=4 smarttab
@@ -96,32 +96,45 @@ set term=xterm
 set t_Co=256
 
 " Stupid Windows settings
-if has('win32')
-	if !has('gui_running') && !empty($CONEMUBUILD)
+if has("win32")
+	if !has("gui_running") && !empty($CONEMUBUILD)
 		let &t_AB="\e[48;5;%dm"
 		let &t_AF="\e[38;5;%dm"
 		colorscheme molokai
 		let g:airline_theme="molokai"
 	else
 		set guifont=Hack:h10
+		let g:airline_theme="base16"
 	endif
 endif
 
 " Airline stuff
 let g:airline_powerline_fonts=1
-let g:airline#extensions#tabline#enabled = 1
+if !exists("g:airline_symbols")
+	let g:airline_symbols={}
+endif
+let g:airline_left_sep=""
+let g:airline_left_alt_sep=""
+let g:airline_right_sep=""
+let g:airline_right_alt_sep=""
+let g:airline_symbols.branch=""
+let g:airline_symbols.readonly=""
+let g:airline_symbols.linenr='¶'
+let g:airline#extensions#tabline#enabled=1
+let g:airline#extensions#whitespace#symbol="◎"
 
 " Syntastic
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:synatstic_aggregate_errors = 1
+let g:syntastic_always_populate_loc_list=1
+let g:syntastic_auto_loc_list=1
+let g:syntastic_check_on_open=1
+let g:syntastic_check_on_wq=0
+let g:synatstic_aggregate_errors=1
 
-let g:syntastic_typescript_checkers = ["tsc", "tslint"]
-let g:syntastic_ruby_checkers = ["mri", "rubocop"]
-let g:syntastic_javascript_checkers = ["eslint"]
+let g:syntastic_typescript_checkers=["tsc", "tslint"]
+let g:syntastic_typescript_tsc_fname=""
+let g:syntastic_ruby_checkers=["mri", "rubocop"]
+let g:syntastic_javascript_checkers=["eslint"]
 
 " Bufferline
-let g:bufferline_echo = 0
+let g:bufferline_echo=0
 
