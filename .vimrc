@@ -47,6 +47,7 @@ set background=dark
 set laststatus=2
 set splitbelow
 set splitright
+set diffopt+=vertical
 set noerrorbells visualbell t_vb=
 au GUIEnter * set visualbell t_vb=
 
