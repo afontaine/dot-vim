@@ -1,3 +1,23 @@
+if has('win32') && has('python')
+python << EOF
+import os
+import re
+path = os.environ['PATH'].split(';')
+
+def contains_msvcr_lib(folder):
+    try:
+        for item in os.listdir(folder):
+            if re.match(r'msvcr\d+\.dll', item):
+                return True
+    except:
+        pass
+    return False
+
+path = [folder for folder in path if not contains_msvcr_lib(folder)]
+os.environ['PATH'] = ';'.join(path)
+EOF
+endif
+
 set nocompatible
 
 " Enable pathogen
@@ -100,4 +120,7 @@ let g:synatstic_aggregate_errors = 1
 let g:syntastic_typescript_checkers = ["tsc", "tslint"]
 let g:syntastic_ruby_checkers = ["mri", "rubocop"]
 let g:syntastic_javascript_checkers = ["eslint"]
+
+" Bufferline
+let g:bufferline_echo = 0
 
