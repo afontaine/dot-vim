@@ -61,3 +61,6 @@
 [submodule ".vim/bundle/vim-pencil"]
 	path = .vim/bundle/vim-pencil
 	url = git://github.com/reedes/vim-pencil.git
+[submodule ".vim/bundle/gulp-vim"]
+	path = .vim/bundle/gulp-vim
+	url = git://github.com/KabbAmine/gulp-vim.git
