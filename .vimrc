@@ -138,12 +138,3 @@ let g:syntastic_javascript_checkers=["eslint"]
 " Bufferline
 let g:bufferline_echo=0
 
-" Pencil
-augroup pencil
-	autocmd!
-	autocmd FileType markdown,mkd call pencil#init()
-augroup END
-
-let g:pencil#cursorwrap=1
-let g:airline_section_x="%{PencilMode()}"
-

@@ -55,9 +55,6 @@
 [submodule ".vim/bundle/vim-buffergator"]
 	path = .vim/bundle/vim-buffergator
 	url = git://github.com/jeetsukumaran/vim-buffergator.git
-[submodule ".vim/bundle/vim-pencil"]
-	path = .vim/bundle/vim-pencil
-	url = git://github.com/reedes/vim-pencil.git
 [submodule ".vim/bundle/gulp-vim"]
 	path = .vim/bundle/gulp-vim
 	url = git://github.com/KabbAmine/gulp-vim.git
