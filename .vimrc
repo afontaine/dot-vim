@@ -79,7 +79,6 @@ autocmd FileType markdown,gitcommit setlocal spelllang=en_ca
 autocmd FileType markdown,gitcommit setlocal spell
 set spellfile=$HOME/.vim-spell-en.utf-8.add
 set complete+=kspell
-let g:airline_theme="molokai"
 
 " Ugh, tab settings
 set tabstop=4 shiftwidth=4 softtabstop=4 smarttab
@@ -104,9 +103,11 @@ if has("win32")
 		let g:airline_theme="molokai"
 	else
 		set guifont=Hack:h10
-		let g:airline_theme="base16"
 	endif
 endif
+
+" Sweet keymaps
+iabbrev </ </<C-X><C-O> 
 
 " Airline stuff
 let g:airline_powerline_fonts=1
@@ -134,6 +135,12 @@ let g:syntastic_typescript_checkers=["tsc", "tslint"]
 let g:syntastic_typescript_tsc_fname=""
 let g:syntastic_ruby_checkers=["mri", "rubocop"]
 let g:syntastic_javascript_checkers=["eslint"]
+
+" Signify
+let g:signify_sign_delete="-"
+let g:signify_sign_delete_first_line="-"
+let g:signify_sign_change="~"
+let g:signify_sign_changedelete="~"
 
 " Bufferline
 let g:bufferline_echo=0
