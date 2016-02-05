@@ -40,7 +40,7 @@ set number
 set noshowmode
 set ignorecase
 set smartcase
-set guifont=Hack\ 12
+set guifont=Hack\ 10
 colorscheme base16-monokai
 let g:airline_theme="base16"
 set background=dark
