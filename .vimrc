@@ -40,7 +40,8 @@ set number
 set noshowmode
 set ignorecase
 set smartcase
-set guifont=Hack\ 10
+set guifont=Hack\ 12
+set guifontwide=Hack\ 12
 colorscheme base16-monokai
 let g:airline_theme="base16"
 set background=dark
@@ -95,15 +96,20 @@ set term=xterm
 set t_Co=256
 
 " Stupid Windows settings
-if has("win32")
-	if !has("gui_running") && !empty($CONEMUBUILD)
-		let &t_AB="\e[48;5;%dm"
-		let &t_AF="\e[38;5;%dm"
-		colorscheme molokai
-		let g:airline_theme="molokai"
-	else
-		set guifont=Hack:h10
-	endif
+if has('win32') || win('win64')
+   if !has('gui_running') && !empty($CONEMUBUILD)
+	  let &t_AB="\e[48;5;%dm"
+	  let &t_AF="\e[38;5;%dm"
+	  colorscheme molokai
+	  let g:airline_theme="molokai"
+  else
+	  set guifont=Hack:h10
+	  set guifontwide=Hack:h10
+	  if (v:version == 704 && has("patch393")) || v:version > 704
+            set renderoptions=type:directx,level:0.75,gamma:1.25,contrast:0.25,
+                        \geom:1,renmode:5,taamode:1
+        endif
+  endif
 endif
 
 " Sweet keymaps
