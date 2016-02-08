@@ -62,7 +62,7 @@ set complete+=kspell
 
 " Ugh, tab settings
 set tabstop=4 shiftwidth=4 softtabstop=4 smarttab
-autocmd FileType ruby,typescript,javascript,json
+autocmd FileType ruby,typescript,javascript,json,typescript
 			\ setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 autocmd FileType c setlocal cindent
 autocmd FileType python setlocal expandtab
