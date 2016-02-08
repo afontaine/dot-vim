@@ -20,6 +20,8 @@ set number
 set noshowmode
 set ignorecase
 set smartcase
+set encoding=utf-8
+set fileencoding=utf-8
 set background=dark
 set laststatus=2
 set backspace=2
@@ -67,9 +69,7 @@ autocmd FileType python setlocal expandtab
 
 " Stupid terminal settings
 if !has("gui_running")
-	set encoding=utf-8
 	set termencoding=utf-8
-	set fileencoding=utf-8
 	set term=xterm
 	set t_Co=256
 end
