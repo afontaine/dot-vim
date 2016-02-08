@@ -1,23 +1,3 @@
-if has("win32") && has("python")
-python << EOF
-import os
-import re
-path = os.environ["PATH"].split(";")
-
-def contains_msvcr_lib(folder):
-	try:
-		for item in os.listdir(folder):
-			if re.match(r"msvcr\d+\.dll", item):
-				return True
-	except:
-		pass
-	return False
-
-path = [folder for folder in path if not contains_msvcr_lib(folder)]
-os.environ["PATH"] = ";".join(path)
-EOF
-endif
-
 set nocompatible
 
 " Enable pathogen
@@ -40,12 +20,9 @@ set number
 set noshowmode
 set ignorecase
 set smartcase
-set guifont=Hack\ 12
-set guifontwide=Hack\ 12
-colorscheme base16-monokai
-let g:airline_theme="base16"
 set background=dark
 set laststatus=2
+set backspace=2
 set splitbelow
 set splitright
 set diffopt+=vertical
@@ -83,33 +60,42 @@ set complete+=kspell
 
 " Ugh, tab settings
 set tabstop=4 shiftwidth=4 softtabstop=4 smarttab
-autocmd FileType ruby,typescript,javascript
+autocmd FileType ruby,typescript,javascript,json
 			\ setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 autocmd FileType c setlocal cindent
 autocmd FileType python setlocal expandtab
 
 " Stupid terminal settings
-set encoding=utf-8
-set termencoding=utf-8
-set fileencoding=utf-8
-set term=xterm
-set t_Co=256
+if !has("gui_running")
+	set encoding=utf-8
+	set termencoding=utf-8
+	set fileencoding=utf-8
+	set term=xterm
+	set t_Co=256
+end
 
 " Stupid Windows settings
 if has('win32') || win('win64')
-   if !has('gui_running') && !empty($CONEMUBUILD)
-	  let &t_AB="\e[48;5;%dm"
-	  let &t_AF="\e[38;5;%dm"
-	  colorscheme molokai
-	  let g:airline_theme="molokai"
-  else
-	  set guifont=Hack:h10
-	  set guifontwide=Hack:h10
-	  if (v:version == 704 && has("patch393")) || v:version > 704
-            set renderoptions=type:directx,level:0.75,gamma:1.25,contrast:0.25,
-                        \geom:1,renmode:5,taamode:1
-        endif
-  endif
+	set wildignore+=*\\node_modules\\*
+	if !has('gui_running') && !empty($CONEMUBUILD)
+		let &t_AB="\e[48;5;%dm"
+		let &t_AF="\e[38;5;%dm"
+		colorscheme molokai
+		let g:airline_theme="molokai"
+	else
+		set guifont=Hack:h10
+		set guifontwide=Hack:h10
+		if (v:version == 704 && has("patch393")) || v:version > 704
+			set renderoptions=type:directx,level:0.75,gamma:1.25,contrast:0.25,
+						\geom:1,renmode:5,taamode:1
+		endif
+	endif
+else
+	set wildignore+=*/node_modules/*
+	set guifont=Hack\ 12
+	set guifontwide=Hack\ 12
+	colorscheme base16-monokai
+	let g:airline_theme="base16"
 endif
 
 " Sweet keymaps
@@ -129,6 +115,9 @@ let g:airline_symbols.readonly=""
 let g:airline_symbols.linenr='¶'
 let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#whitespace#symbol="◎"
+
+" CtrlP
+nnoremap <C-T> :CtrlPTag<CR>
 
 " Syntastic
 let g:syntastic_always_populate_loc_list=1
@@ -151,3 +140,5 @@ let g:signify_sign_changedelete="~"
 " Bufferline
 let g:bufferline_echo=0
 
+" Gulp
+nnoremap <C-G> :CtrlPGulp<CR>
