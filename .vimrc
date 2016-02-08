@@ -76,7 +76,7 @@ end
 
 " Stupid Windows settings
 if has('win32') || win('win64')
-	set wildignore+=*\\node_modules\\*
+	set wildignore+=*\\node_modules\\*,*\\tmp\\*,*.swp,*.zip,*.exe
 	if !has('gui_running') && !empty($CONEMUBUILD)
 		let &t_AB="\e[48;5;%dm"
 		let &t_AF="\e[38;5;%dm"
@@ -91,7 +91,7 @@ if has('win32') || win('win64')
 		endif
 	endif
 else
-	set wildignore+=*/node_modules/*
+	set wildignore+=*/node_modules/*,*/tmp/*,*.so,*.swp,*.zip
 	set guifont=Hack\ 12
 	set guifontwide=Hack\ 12
 	colorscheme base16-monokai
