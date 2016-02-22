@@ -75,7 +75,7 @@ if !has("gui_running")
 end
 
 " Stupid Windows settings
-if has('win32') || win('win64')
+if has('win32') || has('win64')
 	set wildignore+=*\\node_modules\\*,*\\tmp\\*,*.swp,*.zip,*.exe
 	if !has('gui_running') && !empty($CONEMUBUILD)
 		let &t_AB="\e[48;5;%dm"
