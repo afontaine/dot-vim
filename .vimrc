@@ -118,8 +118,20 @@ let g:airline_symbols.linenr='¶'
 let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#whitespace#symbol="◎"
 
+let g:airline_section_x="%{PencilMode()}"
+
 " CtrlP
 nnoremap <C-T> :CtrlPTag<CR>
+let g:ctrlp_extensions=["autoignore"]
+let g:ctrlp_user_command=[".git/", "git --git-dir=%s/.git ls-files -oc --exclude-standard"]
+
+" Pencil
+augroup pencil
+	autocmd!
+	autocmd FileType markdown call pencil#init()
+augroup end
+
+let g:pencil#cursorwrap=0
 
 " Syntastic
 let g:syntastic_always_populate_loc_list=1
@@ -144,3 +156,6 @@ let g:bufferline_echo=0
 
 " Gulp
 nnoremap <C-G> :CtrlPGulp<CR>
+
+" Ultisnips
+let g:UltiSnipsExpandTrigger="<C-Space>"
