@@ -16,9 +16,6 @@
 [submodule ".vim/bundle/ctrlp.vim"]
 	path = .vim/bundle/ctrlp.vim
 	url = git://github.com/ctrlpvim/ctrlp.vim.git
-[submodule ".vim/bundle/nerdcommenter"]
-	path = .vim/bundle/nerdcommenter
-	url = git://github.com/scrooloose/nerdcommenter.git
 [submodule ".vim/bundle/vim-js-indent"]
 	path = .vim/bundle/vim-js-indent
 	url = git://github.com/jason0x43/vim-js-indent.git
@@ -82,3 +79,6 @@
 [submodule ".vim/bundle/vim-ctrlp-autoignore"]
 	path = .vim/bundle/vim-ctrlp-autoignore
 	url = git://github.com/ludovicchabant/vim-ctrlp-autoignore.git
+[submodule ".vim/bundle/vim-commentary"]
+	path = .vim/bundle/vim-commentary
+	url = git://github.com/tpope/vim-commentary.git
