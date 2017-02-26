@@ -1,7 +1,39 @@
 set nocompatible
 
-" Enable pathogen
-execute pathogen#infect()
+call plug#begin()
+Plug 'chriskempson/base16-vim'
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTreeToggle' }
+
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+
+Plug 'w0rp/ale'
+
+Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
+
+Plug 'jeetsukumaran/vim-buffergator'
+Plug 'bling/vim-bufferline'
+
+Plug 'gabrielelana/vim-markdown'
+Plug 'reedes/vim-pencil'
+
+Plug 'mhinz/vim-signify'
+
+Plug 'othree/yajs.vim'
+Plug 'HerringtonDarkholme/yats.vim'
+
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+
+Plug 'christoomey/vim-tmux-navigator'
+call plug#end()
+
 
 " Mappings
 map <C-n> :NERDTreeToggle<cr>
@@ -120,11 +152,6 @@ let g:airline#extensions#whitespace#symbol="◎"
 
 let g:airline_section_x="%{PencilMode()}"
 
-" CtrlP
-nnoremap <C-T> :CtrlPTag<CR>
-let g:ctrlp_extensions=["autoignore"]
-let g:ctrlp_user_command=[".git/", "git --git-dir=%s/.git ls-files -oc --exclude-standard"]
-
 " Pencil
 augroup pencil
 	autocmd!
@@ -132,18 +159,6 @@ augroup pencil
 augroup end
 
 let g:pencil#cursorwrap=0
-
-" Syntastic
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_auto_loc_list=1
-let g:syntastic_check_on_open=1
-let g:syntastic_check_on_wq=0
-let g:synatstic_aggregate_errors=1
-
-let g:syntastic_typescript_checkers=["tsc", "tslint"]
-let g:syntastic_typescript_tsc_fname=""
-let g:syntastic_ruby_checkers=["mri", "rubocop"]
-let g:syntastic_javascript_checkers=["eslint"]
 
 " Signify
 let g:signify_sign_delete="-"
@@ -153,9 +168,6 @@ let g:signify_sign_changedelete="~"
 
 " Bufferline
 let g:bufferline_echo=0
-
-" Gulp
-nnoremap <C-G> :CtrlPGulp<CR>
 
 " Ultisnips
 let g:UltiSnipsExpandTrigger="<C-Space>"
