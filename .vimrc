@@ -13,6 +13,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'w0rp/ale'
 
 Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
+Plug 'edkolev/tmuxline.vim'
 
 Plug 'jeetsukumaran/vim-buffergator'
 Plug 'bling/vim-bufferline'
@@ -118,7 +119,7 @@ if has('win32') || has('win64')
 		set guifont=Hack:h10
 		set guifontwide=Hack:h10
 		colorscheme base16-monokai
-		let g:airline_theme="base16"
+		let g:airline_theme="base16_monokai"
 		if (v:version == 704 && has("patch393")) || v:version > 704
 			set renderoptions=type:directx,level:0.75,gamma:1.25,contrast:0.25,
 						\geom:1,renmode:5,taamode:1
@@ -129,7 +130,7 @@ else
 	set guifont=Hack\ 12
 	set guifontwide=Hack\ 12
 	colorscheme base16-monokai
-	let g:airline_theme="base16"
+	let g:airline_theme="base16_monokai"
 endif
 
 " Sweet keymaps
