@@ -7,7 +7,11 @@ let g:ale_set_balloons=0
 let g:ale_linters = {'javascript': ['tslint']}
 let g:ale_typescript_tslint_executable = 'npx tslint'
 let g:ale_sign_column_always = 1
+let g:ale_sign_error = '✗'
+let g:ale_sign_warining = '?'
+let g:ale_sign_info = '✭'
 
+nnoremap <Space> <Nop>
 let mapleader = "\<Space>"
 
 call plug#begin()
@@ -16,14 +20,16 @@ Plug 'chriskempson/base16-vim'
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'junegunn/goyo.vim', { 'for': 'markdown' } | Plug 'junegunn/limelight.vim'
 
 Plug 'w0rp/ale'
 
 Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
 " Plug 'edkolev/tmuxline.vim'
 
-" Plug 'gabrielelana/vim-markdown'
-" Plug 'reedes/vim-pencil'
+Plug 'gabrielelana/vim-markdown'
+Plug 'reedes/vim-pencil'
 
 Plug 'mhinz/vim-signify'
 
@@ -44,16 +50,19 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-obsession'
+Plug 'tpope/vim-vinegar'
 
 Plug 'dhruvasagar/vim-prosession'
 
 Plug 'idanarye/vim-merginal'
+
+Plug 'aklt/plantuml-syntax'
+
+Plug 'bdauria/angular-cli.vim'
+
+Plug 'tmhedberg/matchit'
 " Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
-
-
-" Mappings
-map <C-n> :NERDTreeToggle<cr>
 
 " Set base16 color space
 let base16colorspace=256
@@ -64,8 +73,13 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
+tnoremap <C-J> <C-W>j
+tnoremap <C-K> <C-W>k
+tnoremap <C-L> <C-W>l
+tnoremap <C-H> <C-W>h
+
 nnoremap <Leader>` :botright new <bar> :exe "resize " . (winheight(0) * 2/3) <bar> set wfh <bar> :terminal ++curwin ++close powershell<CR>
-nnoremap <Leader>x :w <bar> bd
+nnoremap <Leader>x :w <bar> bd<CR>
 
 let g:terminal_ansi_colors = [
   \ '#272822',
@@ -154,10 +168,13 @@ au BufRead,BufNewFile *.cfg,*.spc set filetype=xml
 
 " Keep things at a specific line length
 highlight OverLength ctermbg=161 ctermfg=white guibg=#FFD9D9
-autocmd FileType c,cpp,markdown,gitcommit,ruby,python,lisp
-      \ match OverLength /\%>80v.\+/
-autocmd FileType javascript,typescript match OverLength /\%>80v.\+/
-autocmd FileType java match OverLength /\%>120v.\+/
+augroup overlength
+  autocmd!
+  autocmd FileType c,cpp,markdown,gitcommit,ruby,python,lisp
+        \ match OverLength /\%>80v.\+/
+  autocmd FileType javascript,typescript match OverLength /\%>80v.\+/
+  autocmd FileType java match OverLength /\%>120v.\+/
+augroup END
 
 " Enable spell check
 autocmd FileType markdown,gitcommit setlocal spelllang=en_ca
@@ -166,11 +183,14 @@ set spellfile=$HOME/.vim-spell-en.utf-8.add
 set complete+=kspell
 
 " Ugh, tab settings
-set tabstop=4 shiftwidth=4 softtabstop=4 smarttab
-autocmd FileType ruby,typescript,javascript,json,typescript,html,vim
-      \ setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
-autocmd FileType c setlocal cindent
-autocmd FileType python setlocal expandtab
+set tabstop=2 shiftwidth=2 softtabstop=2 smarttab expandtab
+augroup indentsettings
+  autocmd!
+  autocmd FileType * setlocal tabstop=2 shiftwidth=2 softtabstop=2 smarttab expandtab
+  autocmd FileType c setlocal noexpandtab cindent tabstop=8 shiftwidth=8 softtabstop=8 smarttab expandtab
+  autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
+  autocmd FileType xml,csharp setlocal tabstop=3 shiftwidth=3 softtabstop=3
+augroup END
 
 " Stupid terminal settings
 if !has("gui_running")
@@ -206,7 +226,10 @@ else
 endif
 
 " Sweet keymaps
-autocmd FileType html,xml iabbrev </ </<C-X><C-O>
+augroup buffermaps
+  autocmd!
+  autocmd FileType html,xml :iabbrev <buffer> </ </<C-X><C-O>
+augroup END
 
 " Airline stuff
 let g:airline_powerline_fonts=1
@@ -223,7 +246,8 @@ let g:airline_symbols.linenr='¶'
 let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#whitespace#symbol="◎"
 
-" let g:airline_section_x="%{PencilMode()}"
+let g:airline_section_x="%{PencilMode()}"
+
 
 " Fugitive
 nnoremap <Leader>m :MerginalToggle<CR>
@@ -238,19 +262,38 @@ nnoremap <Leader>p :Files<CR>
 nnoremap <Leader>b :Buffers<CR>
 nnoremap <Leader>f :Find<CR>
 
-" Pencil
-" augroup pencil
-"   autocmd!
-"   autocmd FileType markdown call pencil#init()
-" augroup end
+" NERDTree
+" nnoremap <Leader>e :NERDTreeToggle<cr>
 
-" let g:pencil#cursorwrap=0
+" let g:NERDTreeIndicatorMapCustom = {
+"     \ 'Modified'  : '✹',
+"     \ 'Staged'    : '✚',
+"     \ 'Untracked' : '✭',
+"     \ 'Renamed'   : '➜',
+"     \ 'Unmerged'  : '═',
+"     \ 'Deleted'   : '✖',
+"     \ 'Dirty'     : '✗',
+"     \ 'Clean'     : '✔︎',
+"     \ 'Ignored'   : '☒',
+"     \ 'Unknown'   : '?'
+"     \ }
+
+" Pencil
+augroup pencil
+  autocmd!
+  autocmd FileType markdown call pencil#init()
+augroup end
+
+" Markdown
+let g:markdown_enable_conceal=1
 
 " Signify
-let g:signify_sign_add="→"
-let g:signify_sign_delete="←"
+let g:signify_vsc_list = ['git']
+let g:signify_realtime = 1
+let g:signify_sign_add="➜"
+let g:signify_sign_delete="✖"
 let g:signify_sign_delete_first_line=g:signify_sign_delete
-let g:signify_sign_change="∼"
+let g:signify_sign_change="✹"
 let g:signify_sign_changedelete=g:signify_sign_change
 
 
@@ -261,21 +304,36 @@ let g:aysncomplete_remove_duplicates = 1
 
 set completeopt+=preview
 
-autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+augroup autocomplete
+  autocmd!
+  autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+augroup END
+
+" asyncomplete.vim
+
+call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+      \ 'name': 'buffer',
+      \ 'whitelist': ['*'],
+      \ 'blacklist': ['typescript', 'elixir'],
+      \ 'completor': function('asyncomplete#sources#buffer#completor')
+      \}))
 
 
 " vim-lsp
 let g:lsp_signs_enabled = 1
 let g:lsp_diagnostics_echo_cursor = 1
-let g:lsp_log_verbose = 1
-let g:lsp_log_file = expand('~/vim-lsp.log')
+let g:lsp_signs_error = { 'text': '✗' }
+let g:lsp_signs_warining = { 'text': '?' }
+let g:lsp_signs_hint = { 'text': '✭' }
+" let g:lsp_log_verbose = 1
+" let g:lsp_log_file = expand('~/vim-lsp.log')
 
 if executable('typescript-language-server')
     au User lsp_setup call lsp#register_server({
         \ 'name': 'typescript-language-server',
         \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
         \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
-        \ 'whitelist': ['typescript', 'javascript'],
+        \ 'whitelist': ['typescript', 'javascript', 'javascript.jsx'],
         \ })
 endif
 
@@ -308,8 +366,26 @@ function! ChompedSystem( ... )
     return substitute(call('system', a:000), '\n\+$', '', '')
 endfunction
 
+augroup lsp
+  autocmd!
+  autocmd FileType typescript,elixir autocmd! BufWritePre <buffer> LspDocumentFormat
+augroup END
+
+" Rainbow Parentheses
+let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}'], ['<', '>']]
+let g:rainbow#blacklist = ['#ff0000', '#f9f8f5', '#49483e', '#75715e', '#f8f8f2']
+
+augroup rainbow
+  autocmd!
+  autocmd FileType typescript,javascript,javascript.jsx,ruby,elixir RainbowParentheses
+  autocmd FileType html,xml RainbowParentheses!
+augroup END
+
 " Git
-autocmd FileType gitrebase setlocal bufhidden=delete
+augroup git
+  autocmd!
+  autocmd FileType gitrebase setlocal bufhidden=delete
+augroup END
 
 if executable('git')
    if ChompedSystem('git rev-parse --is-inside-work-tree') == "true"
