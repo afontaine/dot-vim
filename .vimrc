@@ -1,4 +1,3 @@
-
 set nocompatible
 
 " ALE
@@ -12,6 +11,9 @@ let g:ale_sign_warining = '?'
 let g:ale_sign_info = '✭'
 
 nnoremap <Space> <Nop>
+" Prosession
+let g:prosession_on_startup = 1
+
 let mapleader = "\<Space>"
 
 call plug#begin()
@@ -55,13 +57,13 @@ Plug 'tpope/vim-vinegar'
 Plug 'dhruvasagar/vim-prosession'
 
 Plug 'idanarye/vim-merginal'
+Plug 'christoomey/vim-tmux-navigator'
 
 Plug 'aklt/plantuml-syntax'
 
 Plug 'bdauria/angular-cli.vim'
 
 Plug 'tmhedberg/matchit'
-" Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 
 " Set base16 color space
@@ -78,27 +80,28 @@ tnoremap <C-K> <C-W>k
 tnoremap <C-L> <C-W>l
 tnoremap <C-H> <C-W>h
 
-nnoremap <Leader>` :botright new <bar> :exe "resize " . (winheight(0) * 2/3) <bar> set wfh <bar> :terminal ++curwin ++close powershell<CR>
-nnoremap <Leader>x :w <bar> bd<CR>
-
-let g:terminal_ansi_colors = [
-  \ '#272822',
-  \ '#f92672',
-  \ '#a6e22e',
-  \ '#f4bf75',
-  \ '#66d9ef',
-  \ '#ae81ff',
-  \ '#a1efe4',
-  \ '#f8f8f2',
-  \ '#75715e',
-  \ '#f92672',
-  \ '#a6e22e',
-  \ '#f4bf75',
-  \ '#66d9ef',
-  \ '#ae81ff',
-  \ '#a1efe4',
-  \ '#f9f8f5'
-  \ ]
+nnoremap <Leader>` :botright new <bar> :exe "resize " . (winheight(0) * 2/3) <bar> set wfh <bar> :terminal ++curwin ++close<CR>
+nnoremap <Leader>x :w <bar> bd
+if has('gui_running')
+  let g:terminal_ansi_colors = [
+    \ '#272822',
+    \ '#f92672',
+    \ '#a6e22e',
+    \ '#f4bf75',
+    \ '#66d9ef',
+    \ '#ae81ff',
+    \ '#a1efe4',
+    \ '#f8f8f2',
+    \ '#75715e',
+    \ '#f92672',
+    \ '#a6e22e',
+    \ '#f4bf75',
+    \ '#66d9ef',
+    \ '#ae81ff',
+    \ '#a1efe4',
+    \ '#f9f8f5'
+    \ ]
+endif
 
 " Various vim settings
 set number
@@ -293,7 +296,7 @@ let g:signify_realtime = 1
 let g:signify_sign_add="➜"
 let g:signify_sign_delete="✖"
 let g:signify_sign_delete_first_line=g:signify_sign_delete
-let g:signify_sign_change="✹"
+let g:signify_sign_change="●"
 let g:signify_sign_changedelete=g:signify_sign_change
 
 
@@ -343,11 +346,11 @@ else
     let $VIMHOME = $HOME . "/.vim"
 endif
 
-if executable(expand($VIMHOME .  "/lsp/elixir-ls/language_server" . (has("win32") ? ".bat" : ".sh")))
+if executable(expand($VIMHOME .  "/lsp/elixir-ls/release/language_server" . (has("win32") ? ".bat" : ".sh")))
     au User lsp_setup call lsp#register_server({
         \ 'name': 'elixir-ls',
         \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'mix.exs'))},
-        \ 'cmd': {server_info->[&shell, &shellcmdflag, expand($VIMHOME .  "/lsp/elixir-ls/language_server" . (has("win32") ? ".bat" : ".sh"))]},
+        \ 'cmd': {server_info->[&shell, &shellcmdflag, expand("~/Repos/elixir-ls/release/language_server.sh")]},
         \ 'whitelist': ['elixir', 'eelixir']
         \ })
 endif
@@ -378,7 +381,7 @@ let g:rainbow#blacklist = ['#ff0000', '#f9f8f5', '#49483e', '#75715e', '#f8f8f2'
 augroup rainbow
   autocmd!
   autocmd FileType typescript,javascript,javascript.jsx,ruby,elixir RainbowParentheses
-  autocmd FileType html,xml RainbowParentheses!
+  autocmd FileType html,xml,eelixir RainbowParentheses!
 augroup END
 
 " Git
@@ -394,3 +397,5 @@ if executable('git')
 endif
 
 set mouse=
+
+set term=xterm-256color
