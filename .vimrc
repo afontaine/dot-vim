@@ -81,7 +81,8 @@ tnoremap <C-L> <C-W>l
 tnoremap <C-H> <C-W>h
 
 nnoremap <Leader>` :botright new <bar> :exe "resize " . (winheight(0) * 2/3) <bar> set wfh <bar> :terminal ++curwin ++close<CR>
-nnoremap <Leader>x :w <bar> bd
+nnoremap <Leader>x :w <bar> bd<CR>
+
 if has('gui_running')
   let g:terminal_ansi_colors = [
     \ '#272822',
@@ -350,7 +351,7 @@ if executable(expand($VIMHOME .  "/lsp/elixir-ls/release/language_server" . (has
     au User lsp_setup call lsp#register_server({
         \ 'name': 'elixir-ls',
         \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'mix.exs'))},
-        \ 'cmd': {server_info->[&shell, &shellcmdflag, expand("~/Repos/elixir-ls/release/language_server.sh")]},
+        \ 'cmd': {server_info->[&shell, &shellcmdflag, expand($VIMHOME .  "/lsp/elixir-ls/release/language_server" . (has("win32") ? ".bat" : ".sh"))]},
         \ 'whitelist': ['elixir', 'eelixir']
         \ })
 endif
