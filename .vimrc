@@ -1,19 +1,5 @@
 set nocompatible
 
-" ALE
-let g:ale_completetion_enabled=0
-let g:ale_set_balloons=0
-let g:ale_linters = {'javascript': ['tslint']}
-let g:ale_typescript_tslint_executable = 'npx tslint'
-let g:ale_sign_column_always = 1
-let g:ale_sign_error = '✗'
-let g:ale_sign_warining = '?'
-let g:ale_sign_info = '✭'
-
-nnoremap <Space> <Nop>
-" Prosession
-let g:prosession_on_startup = 1
-
 let mapleader = "\<Space>"
 
 call plug#begin()
@@ -25,8 +11,6 @@ Plug 'junegunn/fzf.vim'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'junegunn/goyo.vim', { 'for': 'markdown' } | Plug 'junegunn/limelight.vim'
 
-Plug 'w0rp/ale'
-
 Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
 " Plug 'edkolev/tmuxline.vim'
 
@@ -37,13 +21,7 @@ Plug 'mhinz/vim-signify'
 
 Plug 'sheerun/vim-polyglot'
 
-
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-buffer.vim'
-Plug 'prabirshrestha/asyncomplete-file.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'neoclide/coc.nvim', { 'do': { -> coc#util#install() } }
 
 Plug 'tpope/vim-dispatch', { 'branch': 'job' }
 Plug 'tpope/vim-commentary'
@@ -197,7 +175,7 @@ augroup indentsettings
 augroup END
 
 " Stupid terminal settings
-if !has("gui_running")
+if !has("gui_running") && !has('nvim')
   set termencoding=utf-8
   set term=xterm
   set t_Co=256
@@ -259,28 +237,11 @@ nnoremap <Leader>m :MerginalToggle<CR>
 " FZF
 if executable('rg')
   let $FZF_DEFAULT_COMMAND='rg --files'
-  command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --color "always" '.shellescape(<q-args>), 1, <bang>0)
 endif
 
 nnoremap <Leader>p :Files<CR>
 nnoremap <Leader>b :Buffers<CR>
-nnoremap <Leader>f :Find<CR>
-
-" NERDTree
-" nnoremap <Leader>e :NERDTreeToggle<cr>
-
-" let g:NERDTreeIndicatorMapCustom = {
-"     \ 'Modified'  : '✹',
-"     \ 'Staged'    : '✚',
-"     \ 'Untracked' : '✭',
-"     \ 'Renamed'   : '➜',
-"     \ 'Unmerged'  : '═',
-"     \ 'Deleted'   : '✖',
-"     \ 'Dirty'     : '✗',
-"     \ 'Clean'     : '✔︎',
-"     \ 'Ignored'   : '☒',
-"     \ 'Unknown'   : '?'
-"     \ }
+nnoremap <Leader>f :Rg<CR>
 
 " Pencil
 augroup pencil
@@ -290,6 +251,7 @@ augroup end
 
 " Markdown
 let g:markdown_enable_conceal=1
+let g:vim_markdown_frontmatter=1
 
 " Signify
 let g:signify_vsc_list = ['git']
@@ -302,10 +264,6 @@ let g:signify_sign_changedelete=g:signify_sign_change
 
 
 " vim-autocomplete
-imap <c-space> <Plug>(asyncomplete_force_refresh)
-
-let g:aysncomplete_remove_duplicates = 1
-
 set completeopt+=preview
 
 augroup autocomplete
@@ -313,67 +271,30 @@ augroup autocomplete
   autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 augroup END
 
-" asyncomplete.vim
+let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(), 0)}'
+let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(), 0)}'
 
-call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-      \ 'name': 'buffer',
-      \ 'whitelist': ['*'],
-      \ 'blacklist': ['typescript', 'elixir'],
-      \ 'completor': function('asyncomplete#sources#buffer#completor')
-      \}))
+inoremap <silent><expr> <c-space> coc#refresh()
 
-
-" vim-lsp
-let g:lsp_signs_enabled = 1
-let g:lsp_diagnostics_echo_cursor = 1
-let g:lsp_signs_error = { 'text': '✗' }
-let g:lsp_signs_warining = { 'text': '?' }
-let g:lsp_signs_hint = { 'text': '✭' }
-" let g:lsp_log_verbose = 1
-" let g:lsp_log_file = expand('~/vim-lsp.log')
-
-if executable('typescript-language-server')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'typescript-language-server',
-        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
-        \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
-        \ 'whitelist': ['typescript', 'javascript', 'javascript.jsx'],
-        \ })
-endif
-
-if has('win32') || has ('win64')
-    let $VIMHOME = $HOME . "/vimfiles"
-else
-    let $VIMHOME = $HOME . "/.vim"
-endif
-
-if executable(expand($VIMHOME .  "/lsp/elixir-ls/release/language_server" . (has("win32") ? ".bat" : ".sh")))
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'elixir-ls',
-        \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'mix.exs'))},
-        \ 'cmd': {server_info->[&shell, &shellcmdflag, expand($VIMHOME .  "/lsp/elixir-ls/release/language_server" . (has("win32") ? ".bat" : ".sh"))]},
-        \ 'whitelist': ['elixir', 'eelixir']
-        \ })
-endif
-
-
-nnoremap gb :LspHover<CR>
+nnoremap gb :call CocAction('doHover')<CR>
 nnoremap <Leader>t :LspDocumentSymbol<CR>
-nnoremap <Leader>n :LspNextError<CR>
-nnoremap <F2> :LspRename<CR>
-nnoremap <F12> :LspDefinition<CR>
-nnoremap <S-F12> :LspReferences<CR>
-nnoremap <Leader>. :LspCodeAction<CR>
-nnoremap <C-f> :LspDocumentFormat<CR>
+
+nmap <leader>qf  <Plug>(coc-fix-current)
+nnoremap <Leader>. <Plug>(coc-codeaction)
+nnoremap <Leader>r <Plug>(coc-rename)
+nnoremap <Leader>n <Plug>(coc-diagnostic-next)
+nnoremap <Leader>F <Plug>(coc-format-selected)
+vnoremap <Leader>F <Plug>(coc-format-selected)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 function! ChompedSystem( ... )
     return substitute(call('system', a:000), '\n\+$', '', '')
 endfunction
-
-augroup lsp
-  autocmd!
-  autocmd FileType typescript,elixir autocmd! BufWritePre <buffer> LspDocumentFormat
-augroup END
 
 " Rainbow Parentheses
 let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}'], ['<', '>']]
@@ -381,8 +302,8 @@ let g:rainbow#blacklist = ['#ff0000', '#f9f8f5', '#49483e', '#75715e', '#f8f8f2'
 
 augroup rainbow
   autocmd!
-  autocmd FileType typescript,javascript,javascript.jsx,ruby,elixir RainbowParentheses
-  autocmd FileType html,xml,eelixir RainbowParentheses!
+  autocmd FileType typescript,javascript,javascript.jsx RainbowParentheses
+  autocmd FileType html,xml,eelixir,elixir,ruby RainbowParentheses!
 augroup END
 
 " Git
@@ -399,4 +320,3 @@ endif
 
 set mouse=
 
-set term=xterm-256color

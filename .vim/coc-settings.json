@@ -1,0 +1,31 @@
+{
+  "coc.preferences.diagnostic.enable": true,
+  "coc.preferences.diagnostic.errorSign": "✗",
+  "coc.preferences.diagnostic.warningSign": "?",
+  "coc.preferences.diagnostic.infoSign": "✭",
+  "coc.preferences.preferCompleteThanJumpPlaceholder": true,
+  "coc.preferences.useQuickfixForLocations": true,
+  "coc.preferences.formatOnSaveFiletypes": [
+    "typescript",
+    "elixir",
+    "json"
+  ],
+  "json.format.enable": true,
+  "languageserver": {
+    "elixir": {
+      "command": "/home/andrew/.vim/lsp/elixir-ls/release/language_server.sh",
+      "args": [],
+      "filetypes": ["elixir", "eelixir"],
+      "rootPatterns": [".git/", "mix.exs"]
+    },
+    "dockerfile": {
+      "command": "docker-langserver",
+      "filetypes": ["dockerfile"],
+      "args": ["--stdio"]
+    },
+    "lua": {
+      "command": "lua-lsp",
+      "filetypes": ["lua"]
+    }
+  }
+}
